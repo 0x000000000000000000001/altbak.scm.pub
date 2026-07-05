@@ -7,16 +7,16 @@ echo "    Running all backends...     "
 echo "================================"
 
 echo ""
-./bin/js/run
+./bin/js/run || echo "=== JS failed ==="
 
 echo ""
-./bin/es/run
+./bin/es/run || echo "=== ES failed ==="
 
 echo ""
-./bin/scm/run
+./bin/scm/run || echo "=== Scheme failed ==="
 
 echo ""
-./bin/erl/run
+./bin/erl/run || echo "=== Erlang failed ==="
 
 echo ""
-./bin/php/run
+./bin/php/run || echo "=== PHP failed ==="
