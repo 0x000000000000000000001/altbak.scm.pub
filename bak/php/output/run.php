@@ -1,1 +1,1 @@
-<?php require __DIR__ . '/vendor/autoload.php'; require 'main.php';
+<?php require __DIR__ . '/../vendor/autoload.php'; require 'main.php';

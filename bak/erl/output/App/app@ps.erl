@@ -40,6 +40,5 @@ main() -> fun
   ((test_stateMonad@ps:describe())()),
   ((test_stateMonad@ps:act())()),
   ((test_lazyEvaluation@ps:describe())()),
-  ((test_lazyEvaluation@ps:act())()),
-  unit
+  ((test_lazyEvaluation@ps:act())())
 end.

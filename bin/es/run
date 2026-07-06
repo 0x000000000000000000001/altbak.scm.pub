@@ -19,8 +19,9 @@ if [ "$1" == "--x" ]; then
   trap "rm -rf src/Test/STArray.purs src/Test/AffOperations.purs src/Test/StringOps.purs src/Test/FileOps src/AppX.purs" EXIT
 fi
 
-npx spago build > /dev/null 2>&1
-npx purs-backend-es build --output-dir bak/es/output > /dev/null 2>&1
+export PATH="$PWD/bak/js/node_modules/.bin:$PATH"
+spago build > /dev/null 2>&1
+purs-backend-es build --output-dir bak/es/output > /dev/null 2>&1
 find bak/es/output-purs -name "foreign.js" | while read -r f; do
   dest="bak/es/output/$(basename $(dirname $f))"
   mkdir -p "$dest"

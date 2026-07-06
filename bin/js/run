@@ -19,7 +19,8 @@ if [ "$1" == "--x" ]; then
   trap "rm -rf src/Test/STArray.purs src/Test/AffOperations.purs src/Test/StringOps.purs src/Test/FileOps src/AppX.purs" EXIT
 fi
 
-npx spago build > /dev/null 2>&1
+export PATH="$PWD/bak/js/node_modules/.bin:$PATH"
+spago build > /dev/null 2>&1
 
 echo "=== Native Node V8 ==="
 time node -e "import('./output/' + '$ENTRY_POINT' + '/index.js').then(m => m.main())"

@@ -19,12 +19,14 @@ if [ "$1" == "--x" ]; then
   trap "rm -rf src/Test/STArray.purs src/Test/AffOperations.purs src/Test/StringOps.purs src/Test/FileOps src/AppX.purs" EXIT
 fi
 
-npx spago build --backend-args "--main ${ENTRY_POINT} --ffi bak/php/ffi" || echo "Compilation failed, but that's expected for now!"
+export PATH="$PWD/bak/js/node_modules/.bin:$PATH"
+spago build --backend-args "--main ${ENTRY_POINT} --ffi bak/php/ffi" || echo "Compilation failed, but that's expected for now!"
 
 echo "=== Native PHP ==="
 if [ -f "output/main.php" ]; then
-    php bin/php/composer.phar update --no-plugins -d output
-    echo "<?php require __DIR__ . '/vendor/autoload.php'; require 'main.php';" > output/run.php
+    mv output/composer.json bak/php/composer.json
+    php bin/php/composer.phar update --no-plugins -d bak/php
+    echo "<?php require __DIR__ . '/../vendor/autoload.php'; require 'main.php';" > output/run.php
     mkdir -p /tmp/phpurs_opcache
     time php -d xdebug.mode=off -d opcache.enable_cli=1 -d opcache.file_cache=/tmp/phpurs_opcache -d opcache.jit_buffer_size=128M -d opcache.jit=1255 output/run.php
 else

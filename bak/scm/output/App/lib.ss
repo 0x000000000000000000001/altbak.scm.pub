@@ -7,7 +7,6 @@
   (import
     (prefix (chezscheme) scm:)
     (prefix (purescm runtime) rt:)
-    (prefix (Data.Unit lib) Data.Unit.)
     (prefix (Test.Ackermann lib) Test.Ackermann.)
     (prefix (Test.AstTree lib) Test.AstTree.)
     (prefix (Test.Church lib) Test.Church.)
@@ -46,6 +45,5 @@
          [_ (Test.Polymorphism.act)]
          [_ (Test.StateMonad.describe)]
          [_ (Test.StateMonad.act)]
-         [_ (Test.LazyEvaluation.describe)]
-         [_ (Test.LazyEvaluation.act)])
-          Data.Unit.unit))))
+         [_ (Test.LazyEvaluation.describe)])
+          (Test.LazyEvaluation.act)))))
