@@ -19,8 +19,16 @@ if [ "$1" == "--x" ]; then
   trap "rm -rf src/Test/STArray.purs src/Test/AffOperations.purs src/Test/StringOps.purs src/Test/FileOps src/AppX.purs" EXIT
 fi
 
+if [ -f "composer.base.json" ]; then
+  cp composer.base.json composer.json
+fi
+
 export PATH="$PWD/run/bak/js/node_modules/.bin:$PATH"
 spago build --backend-args "--main ${ENTRY_POINT} --ffi run/bak/php/ffi" || echo "Compilation failed, but that's expected for now!"
+
+if [ -f "composer.json" ]; then
+  rm composer.json
+fi
 
 echo "=== Native PHP ==="
 if [ -f "output/main.php" ]; then
