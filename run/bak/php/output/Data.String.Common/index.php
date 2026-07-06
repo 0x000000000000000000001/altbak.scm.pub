@@ -96,24 +96,25 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_String_Common__localeCompare = function($lt, $eq = null, $gt = null, $s1 = null, $s2 = null) {
+$ffi_Data_String_Common = \call_user_func(function() {
+$_localeCompare = function($lt, $eq = null, $gt = null, $s1 = null, $s2 = null) use (&$_localeCompare) {
     if (func_num_args() < 5) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Common__localeCompare;
-            return $Data_String_Common__localeCompare(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$_localeCompare) {
+
+            return $_localeCompare(...array_merge($__args, $more));
         };
     }
     $result = strcmp($s1, $s2);
     return $result < 0 ? $lt : ($result > 0 ? $gt : $eq);
 };
 
-$Data_String_Common_replace = function($s1, $s2 = null, $s3 = null) {
+$replace = function($s1, $s2 = null, $s3 = null) use (&$replace) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Common_replace;
-            return $Data_String_Common_replace(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$replace) {
+
+            return $replace(...array_merge($__args, $more));
         };
     }
     $pos = strpos($s3, $s1);
@@ -123,23 +124,23 @@ $Data_String_Common_replace = function($s1, $s2 = null, $s3 = null) {
     return $s3;
 };
 
-$Data_String_Common_replaceAll = function($s1, $s2 = null, $s3 = null) {
+$replaceAll = function($s1, $s2 = null, $s3 = null) use (&$replaceAll) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Common_replaceAll;
-            return $Data_String_Common_replaceAll(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$replaceAll) {
+
+            return $replaceAll(...array_merge($__args, $more));
         };
     }
     return str_replace($s1, $s2, $s3);
 };
 
-$Data_String_Common_split = function($sep, $s = null) {
+$split = function($sep, $s = null) use (&$split) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Common_split;
-            return $Data_String_Common_split(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$split) {
+
+            return $split(...array_merge($__args, $more));
         };
     }
     if ($sep === "") {
@@ -148,27 +149,47 @@ $Data_String_Common_split = function($sep, $s = null) {
     return explode($sep, $s);
 };
 
-$Data_String_Common_toLower = function($s) {
+$toLower = function($s) use (&$toLower) {
     return strtolower($s);
 };
 
-$Data_String_Common_toUpper = function($s) {
+$toUpper = function($s) use (&$toUpper) {
     return strtoupper($s);
 };
 
-$Data_String_Common_trim = function($s) {
+$trim = function($s) use (&$trim) {
     return trim($s);
 };
 
-$Data_String_Common_joinWith = function($s, $xs = null) {
+$joinWith = function($s, $xs = null) use (&$joinWith) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Common_joinWith;
-            return $Data_String_Common_joinWith(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$toLower) {
+
+            return $joinWith(...array_merge($__args, $more));
         };
     }
     return implode($s, $xs);
 };
+
+$exports['_localeCompare'] = $_localeCompare;
+$exports['replace'] = $replace;
+$exports['replaceAll'] = $replaceAll;
+$exports['split'] = $split;
+$exports['toLower'] = $toLower;
+$exports['toUpper'] = $toUpper;
+$exports['trim'] = $trim;
+$exports['joinWith'] = $joinWith;
+return $exports;
+});
+$GLOBALS['Data_String_Common__localeCompare'] = $ffi_Data_String_Common['_localeCompare'] ?? null;
+$GLOBALS['Data_String_Common_replace'] = $ffi_Data_String_Common['replace'] ?? null;
+$GLOBALS['Data_String_Common_replaceAll'] = $ffi_Data_String_Common['replaceAll'] ?? null;
+$GLOBALS['Data_String_Common_split'] = $ffi_Data_String_Common['split'] ?? null;
+$GLOBALS['Data_String_Common_toLower'] = $ffi_Data_String_Common['toLower'] ?? null;
+$GLOBALS['Data_String_Common_toUpper'] = $ffi_Data_String_Common['toUpper'] ?? null;
+$GLOBALS['Data_String_Common_trim'] = $ffi_Data_String_Common['trim'] ?? null;
+$GLOBALS['Data_String_Common_joinWith'] = $ffi_Data_String_Common['joinWith'] ?? null;
+
 
 

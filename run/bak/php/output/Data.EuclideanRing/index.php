@@ -5,6 +5,7 @@ namespace Data\EuclideanRing;
 require_once __DIR__ . '/../Data.CommutativeRing/index.php';
 require_once __DIR__ . '/../Data.Eq/index.php';
 require_once __DIR__ . '/../Data.EuclideanRing/index.php';
+require_once __DIR__ . '/../Data.HeytingAlgebra/index.php';
 require_once __DIR__ . '/../Data.Ring/index.php';
 require_once __DIR__ . '/../Data.Semiring/index.php';
 
@@ -104,37 +105,50 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_EuclideanRing_intDegree = function($x) { return abs($x); };
-$Data_EuclideanRing_intDiv = function($x, $y = null) {
+$ffi_Data_EuclideanRing = \call_user_func(function() {
+$intDegree = function($x) use (&$intDegree) { return abs($x); };
+$intDiv = function($x, $y = null) use (&$intDiv) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_EuclideanRing_intDiv;
-            return $Data_EuclideanRing_intDiv(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$intDegree) {
+
+            return $intDiv(...array_merge($__args, $more));
         };
     }
     return (int)($x / $y);
 };
-$Data_EuclideanRing_intMod = function($x, $y = null) {
+$intMod = function($x, $y = null) use (&$intMod) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_EuclideanRing_intMod;
-            return $Data_EuclideanRing_intMod(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$intDiv) {
+
+            return $intMod(...array_merge($__args, $more));
         };
     }
     return $x % $y;
 };
-$Data_EuclideanRing_numDiv = function($x, $y = null) {
+$numDiv = function($x, $y = null) use (&$numDiv) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_EuclideanRing_numDiv;
-            return $Data_EuclideanRing_numDiv(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$intMod) {
+
+            return $numDiv(...array_merge($__args, $more));
         };
     }
     return $x / $y;
 };
+
+$exports['intDegree'] = $intDegree;
+$exports['intDiv'] = $intDiv;
+$exports['intMod'] = $intMod;
+$exports['numDiv'] = $numDiv;
+return $exports;
+});
+$GLOBALS['Data_EuclideanRing_intDegree'] = $ffi_Data_EuclideanRing['intDegree'] ?? null;
+$GLOBALS['Data_EuclideanRing_intDiv'] = $ffi_Data_EuclideanRing['intDiv'] ?? null;
+$GLOBALS['Data_EuclideanRing_intMod'] = $ffi_Data_EuclideanRing['intMod'] ?? null;
+$GLOBALS['Data_EuclideanRing_numDiv'] = $ffi_Data_EuclideanRing['numDiv'] ?? null;
+
 
 // Data_EuclideanRing_EuclideanRing$Dict
 function Data_EuclideanRing_EuclideanRing__dollar__Dict($x) {
@@ -170,4 +184,24 @@ throw new \Exception("Pattern match failure");
 }
 $GLOBALS['Data_EuclideanRing_mod'] = __NAMESPACE__ . '\\Data_EuclideanRing_mod';
 
+
+// Data_EuclideanRing_div
+function Data_EuclideanRing_div($dict) {
+  $__num = func_num_args();
+  $__fn = __NAMESPACE__ . '\\' . 'Data_EuclideanRing_div';
+  if ($__num < 1) {
+    return phpurs_curry_fallback($__fn, func_get_args(), 1);
+  }
+  $__case_0 = $dict;
+  if (true) {
+$v = $__case_0;
+$__res = ($v)->div;
+goto __end;;
+} else {
+throw new \Exception("Pattern match failure");
+};
+  __end:
+  return 1 < $__num ? $__res(...array_slice(func_get_args(), 1)) : $__res;
+}
+$GLOBALS['Data_EuclideanRing_div'] = __NAMESPACE__ . '\\Data_EuclideanRing_div';
 

@@ -8,6 +8,7 @@ require_once __DIR__ . '/../Control.Apply/index.php';
 require_once __DIR__ . '/../Control.Bind/index.php';
 require_once __DIR__ . '/../Data.Unit/index.php';
 require_once __DIR__ . '/../Effect/index.php';
+require_once __DIR__ . '/../Prelude/index.php';
 require_once __DIR__ . '/../Test.AffOperations/index.php';
 require_once __DIR__ . '/../Test.FileOps/index.php';
 require_once __DIR__ . '/../Test.STArray/index.php';

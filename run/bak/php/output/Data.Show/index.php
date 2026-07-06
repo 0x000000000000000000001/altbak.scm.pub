@@ -2,6 +2,7 @@
 
 namespace Data\Show;
 
+require_once __DIR__ . '/../Data.Semigroup/index.php';
 require_once __DIR__ . '/../Data.Show/index.php';
 require_once __DIR__ . '/../Data.Unit/index.php';
 
@@ -94,20 +95,35 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Show_showIntImpl = function($i) { return (string)$i; };
-$Data_Show_showStringImpl = function($s) { return $s; };
-$Data_Show_showNumberImpl = function($n) { return (string)$n; };
-$Data_Show_showCharImpl = function($c) { return $c; };
-$Data_Show_showArrayImpl = function($f, $xs = null) {
+$ffi_Data_Show = \call_user_func(function() {
+$showIntImpl = function($i) use (&$showIntImpl) { return (string)$i; };
+$showStringImpl = function($s) use (&$showStringImpl) { return $s; };
+$showNumberImpl = function($n) use (&$showNumberImpl) { return (string)$n; };
+$showCharImpl = function($c) use (&$showCharImpl) { return $c; };
+$showArrayImpl = function($f, $xs = null) use (&$showArrayImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Show_showArrayImpl;
-            return $Data_Show_showArrayImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$showIntImpl) {
+
+            return $showArrayImpl(...array_merge($__args, $more));
         };
     }
     return "[" . implode(",", array_map($f, $xs)) . "]";
 };
+
+$exports['showIntImpl'] = $showIntImpl;
+$exports['showStringImpl'] = $showStringImpl;
+$exports['showNumberImpl'] = $showNumberImpl;
+$exports['showCharImpl'] = $showCharImpl;
+$exports['showArrayImpl'] = $showArrayImpl;
+return $exports;
+});
+$GLOBALS['Data_Show_showIntImpl'] = $ffi_Data_Show['showIntImpl'] ?? null;
+$GLOBALS['Data_Show_showNumberImpl'] = $ffi_Data_Show['showNumberImpl'] ?? null;
+$GLOBALS['Data_Show_showCharImpl'] = $ffi_Data_Show['showCharImpl'] ?? null;
+$GLOBALS['Data_Show_showStringImpl'] = $ffi_Data_Show['showStringImpl'] ?? null;
+$GLOBALS['Data_Show_showArrayImpl'] = $ffi_Data_Show['showArrayImpl'] ?? null;
+
 
 // Data_Show_Show$Dict
 function Data_Show_Show__dollar__Dict($x) {

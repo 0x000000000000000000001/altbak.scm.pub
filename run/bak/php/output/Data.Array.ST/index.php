@@ -108,27 +108,28 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Array_ST_new = function() {
+$ffi_Data_Array_ST = \call_user_func(function() {
+$new = function() use (&$new) {
     return (object)["value" => []];
 };
 
-$Data_Array_ST_peekImpl = function($just, $nothing = null, $i = null, $xs = null) {
+$peekImpl = function($just, $nothing = null, $i = null, $xs = null) use (&$peekImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_peekImpl;
-            return $Data_Array_ST_peekImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$new) {
+
+            return $peekImpl(...array_merge($__args, $more));
         };
     }
     return ($i >= 0 && $i < count($xs->value)) ? $just($xs->value[$i]) : $nothing;
 };
 
-$Data_Array_ST_pokeImpl = function($i, $a = null, $xs = null) {
+$pokeImpl = function($i, $a = null, $xs = null) use (&$pokeImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_pokeImpl;
-            return $Data_Array_ST_pokeImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$peekImpl) {
+
+            return $pokeImpl(...array_merge($__args, $more));
         };
     }
     if ($i >= 0 && $i < count($xs->value)) {
@@ -138,27 +139,27 @@ $Data_Array_ST_pokeImpl = function($i, $a = null, $xs = null) {
     return false;
 };
 
-$Data_Array_ST_lengthImpl = function($xs) {
+$lengthImpl = function($xs) use (&$lengthImpl) {
     return count($xs->value);
 };
 
-$Data_Array_ST_popImpl = function($just, $nothing = null, $xs = null) {
+$popImpl = function($just, $nothing = null, $xs = null) use (&$popImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_popImpl;
-            return $Data_Array_ST_popImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$pokeImpl) {
+
+            return $popImpl(...array_merge($__args, $more));
         };
     }
     return count($xs->value) > 0 ? $just(array_pop($xs->value)) : $nothing;
 };
 
-$Data_Array_ST_pushAllImpl = function($as, $xs = null) {
+$pushAllImpl = function($as, $xs = null) use (&$pushAllImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_pushAllImpl;
-            return $Data_Array_ST_pushAllImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$lengthImpl) {
+
+            return $pushAllImpl(...array_merge($__args, $more));
         };
     }
     foreach ($as as $a) {
@@ -167,66 +168,66 @@ $Data_Array_ST_pushAllImpl = function($as, $xs = null) {
     return count($xs->value);
 };
 
-$Data_Array_ST_shiftImpl = function($just, $nothing = null, $xs = null) {
+$shiftImpl = function($just, $nothing = null, $xs = null) use (&$shiftImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_shiftImpl;
-            return $Data_Array_ST_shiftImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$popImpl) {
+
+            return $shiftImpl(...array_merge($__args, $more));
         };
     }
     return count($xs->value) > 0 ? $just(array_shift($xs->value)) : $nothing;
 };
 
-$Data_Array_ST_unshiftAllImpl = function($as, $xs = null) {
+$unshiftAllImpl = function($as, $xs = null) use (&$unshiftAllImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_unshiftAllImpl;
-            return $Data_Array_ST_unshiftAllImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$pushAllImpl) {
+
+            return $unshiftAllImpl(...array_merge($__args, $more));
         };
     }
     array_unshift($xs->value, ...$as);
     return count($xs->value);
 };
 
-$Data_Array_ST_spliceImpl = function($i, $howMany = null, $bs = null, $xs = null) {
+$spliceImpl = function($i, $howMany = null, $bs = null, $xs = null) use (&$spliceImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_spliceImpl;
-            return $Data_Array_ST_spliceImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$shiftImpl) {
+
+            return $spliceImpl(...array_merge($__args, $more));
         };
     }
     return array_splice($xs->value, $i, $howMany, $bs);
 };
 
-$Data_Array_ST_unsafeFreezeImpl = function($xs) {
+$unsafeFreezeImpl = function($xs) use (&$unsafeFreezeImpl) {
     return $xs->value;
 };
 
-$Data_Array_ST_unsafeThawImpl = function($xs) {
+$unsafeThawImpl = function($xs) use (&$unsafeThawImpl) {
     return (object)["value" => $xs];
 };
 
-$Data_Array_ST_freezeImpl = function($xs) {
+$freezeImpl = function($xs) use (&$freezeImpl) {
     return $xs->value;
 };
 
-$Data_Array_ST_thawImpl = function($xs) {
+$thawImpl = function($xs) use (&$thawImpl) {
     return (object)["value" => $xs];
 };
 
-$Data_Array_ST_cloneImpl = function($xs) {
+$cloneImpl = function($xs) use (&$cloneImpl) {
     return (object)["value" => $xs->value];
 };
 
-$Data_Array_ST_sortByImpl = function($compare, $fromOrdering = null, $xs = null) {
+$sortByImpl = function($compare, $fromOrdering = null, $xs = null) use (&$sortByImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_sortByImpl;
-            return $Data_Array_ST_sortByImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$unshiftAllImpl) {
+
+            return $sortByImpl(...array_merge($__args, $more));
         };
     }
     usort($xs->value, function($a, $b) use ($compare, $fromOrdering) {
@@ -235,7 +236,7 @@ $Data_Array_ST_sortByImpl = function($compare, $fromOrdering = null, $xs = null)
     return $xs;
 };
 
-$Data_Array_ST_toAssocArrayImpl = function($xs) {
+$toAssocArrayImpl = function($xs) use (&$toAssocArrayImpl) {
     $n = count($xs->value);
     $as = [];
     for ($i = 0; $i < $n; $i++) {
@@ -244,17 +245,55 @@ $Data_Array_ST_toAssocArrayImpl = function($xs) {
     return $as;
 };
 
-$Data_Array_ST_pushImpl = function($a, $xs = null) {
+$pushImpl = function($a, $xs = null) use (&$pushImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_ST_pushImpl;
-            return $Data_Array_ST_pushImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$spliceImpl) {
+
+            return $pushImpl(...array_merge($__args, $more));
         };
     }
     $xs->value[] = $a;
     return count($xs->value);
 };
+
+$exports['new'] = $new;
+$exports['peekImpl'] = $peekImpl;
+$exports['pokeImpl'] = $pokeImpl;
+$exports['lengthImpl'] = $lengthImpl;
+$exports['popImpl'] = $popImpl;
+$exports['pushAllImpl'] = $pushAllImpl;
+$exports['shiftImpl'] = $shiftImpl;
+$exports['unshiftAllImpl'] = $unshiftAllImpl;
+$exports['spliceImpl'] = $spliceImpl;
+$exports['unsafeFreezeImpl'] = $unsafeFreezeImpl;
+$exports['unsafeThawImpl'] = $unsafeThawImpl;
+$exports['freezeImpl'] = $freezeImpl;
+$exports['thawImpl'] = $thawImpl;
+$exports['cloneImpl'] = $cloneImpl;
+$exports['sortByImpl'] = $sortByImpl;
+$exports['toAssocArrayImpl'] = $toAssocArrayImpl;
+$exports['pushImpl'] = $pushImpl;
+return $exports;
+});
+$GLOBALS['Data_Array_ST_unsafeFreezeImpl'] = $ffi_Data_Array_ST['unsafeFreezeImpl'] ?? null;
+$GLOBALS['Data_Array_ST_unsafeThawImpl'] = $ffi_Data_Array_ST['unsafeThawImpl'] ?? null;
+$GLOBALS['Data_Array_ST_new'] = $ffi_Data_Array_ST['new'] ?? null;
+$GLOBALS['Data_Array_ST_thawImpl'] = $ffi_Data_Array_ST['thawImpl'] ?? null;
+$GLOBALS['Data_Array_ST_cloneImpl'] = $ffi_Data_Array_ST['cloneImpl'] ?? null;
+$GLOBALS['Data_Array_ST_shiftImpl'] = $ffi_Data_Array_ST['shiftImpl'] ?? null;
+$GLOBALS['Data_Array_ST_sortByImpl'] = $ffi_Data_Array_ST['sortByImpl'] ?? null;
+$GLOBALS['Data_Array_ST_freezeImpl'] = $ffi_Data_Array_ST['freezeImpl'] ?? null;
+$GLOBALS['Data_Array_ST_peekImpl'] = $ffi_Data_Array_ST['peekImpl'] ?? null;
+$GLOBALS['Data_Array_ST_pokeImpl'] = $ffi_Data_Array_ST['pokeImpl'] ?? null;
+$GLOBALS['Data_Array_ST_lengthImpl'] = $ffi_Data_Array_ST['lengthImpl'] ?? null;
+$GLOBALS['Data_Array_ST_popImpl'] = $ffi_Data_Array_ST['popImpl'] ?? null;
+$GLOBALS['Data_Array_ST_pushImpl'] = $ffi_Data_Array_ST['pushImpl'] ?? null;
+$GLOBALS['Data_Array_ST_pushAllImpl'] = $ffi_Data_Array_ST['pushAllImpl'] ?? null;
+$GLOBALS['Data_Array_ST_unshiftAllImpl'] = $ffi_Data_Array_ST['unshiftAllImpl'] ?? null;
+$GLOBALS['Data_Array_ST_spliceImpl'] = $ffi_Data_Array_ST['spliceImpl'] ?? null;
+$GLOBALS['Data_Array_ST_toAssocArrayImpl'] = $ffi_Data_Array_ST['toAssocArrayImpl'] ?? null;
+
 
 
 

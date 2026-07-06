@@ -94,26 +94,35 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Semigroup_concatString = function($x, $y = null) {
+$ffi_Data_Semigroup = \call_user_func(function() {
+$concatString = function($x, $y = null) use (&$concatString) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Semigroup_concatString;
-            return $Data_Semigroup_concatString(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$concatString) {
+
+            return $concatString(...array_merge($__args, $more));
         };
     }
     return $x . $y;
 };
-$Data_Semigroup_concatArray = function($x, $y = null) {
+$concatArray = function($x, $y = null) use (&$concatArray) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Semigroup_concatArray;
-            return $Data_Semigroup_concatArray(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$concatArray) {
+
+            return $concatArray(...array_merge($__args, $more));
         };
     }
     return array_merge($x, $y);
 };
+
+$exports['concatString'] = $concatString;
+$exports['concatArray'] = $concatArray;
+return $exports;
+});
+$GLOBALS['Data_Semigroup_concatString'] = $ffi_Data_Semigroup['concatString'] ?? null;
+$GLOBALS['Data_Semigroup_concatArray'] = $ffi_Data_Semigroup['concatArray'] ?? null;
+
 
 // Data_Semigroup_Semigroup$Dict
 function Data_Semigroup_Semigroup__dollar__Dict($x) {

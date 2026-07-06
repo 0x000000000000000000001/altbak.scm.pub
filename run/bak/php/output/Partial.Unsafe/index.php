@@ -95,7 +95,14 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Partial_Unsafe__unsafePartial = function($f) { return $f(null); };
+$ffi_Partial_Unsafe = \call_user_func(function() {
+$_unsafePartial = function($f) use (&$_unsafePartial) { return $f(null); };
+
+$exports['_unsafePartial'] = $_unsafePartial;
+return $exports;
+});
+$GLOBALS['Partial_Unsafe__unsafePartial'] = $ffi_Partial_Unsafe['_unsafePartial'] ?? null;
+
 
 
 

@@ -102,17 +102,26 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Ring_intSub = function($a, $b = null) {
+$ffi_Data_Ring = \call_user_func(function() {
+$intSub = function($a, $b = null) use (&$intSub) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Ring_intSub;
-            return $Data_Ring_intSub(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$intSub) {
+
+            return $intSub(...array_merge($__args, $more));
         };
     }
     return $a - $b;
 };
-$Data_Ring_numSub = $Data_Ring_intSub;
+$numSub = $intSub;
+
+$exports['intSub'] = $intSub;
+$exports['numSub'] = $numSub;
+return $exports;
+});
+$GLOBALS['Data_Ring_intSub'] = $ffi_Data_Ring['intSub'] ?? null;
+$GLOBALS['Data_Ring_numSub'] = $ffi_Data_Ring['numSub'] ?? null;
+
 
 // Data_Ring_Ring$Dict
 function Data_Ring_Ring__dollar__Dict($x) {

@@ -93,6 +93,13 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Unit_unit = 1;
+$ffi_Data_Unit = \call_user_func(function() {
+$unit = 1;
+
+$exports['unit'] = $unit;
+return $exports;
+});
+$GLOBALS['Data_Unit_unit'] = $ffi_Data_Unit['unit'] ?? null;
+
 
 

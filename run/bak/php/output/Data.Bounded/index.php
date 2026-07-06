@@ -103,12 +103,29 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Bounded_topInt = 2147483647;
-$Data_Bounded_bottomInt = -2147483648;
-$Data_Bounded_topChar = "\u{10FFFF}";
-$Data_Bounded_bottomChar = "\u{0000}";
-$Data_Bounded_topNumber = INF;
-$Data_Bounded_bottomNumber = -INF;
+$ffi_Data_Bounded = \call_user_func(function() {
+$topInt = 2147483647;
+$bottomInt = -2147483648;
+$topChar = "\u{10FFFF}";
+$bottomChar = "\u{0000}";
+$topNumber = INF;
+$bottomNumber = -INF;
+
+$exports['topInt'] = $topInt;
+$exports['bottomInt'] = $bottomInt;
+$exports['topChar'] = $topChar;
+$exports['bottomChar'] = $bottomChar;
+$exports['topNumber'] = $topNumber;
+$exports['bottomNumber'] = $bottomNumber;
+return $exports;
+});
+$GLOBALS['Data_Bounded_topInt'] = $ffi_Data_Bounded['topInt'] ?? null;
+$GLOBALS['Data_Bounded_bottomInt'] = $ffi_Data_Bounded['bottomInt'] ?? null;
+$GLOBALS['Data_Bounded_topChar'] = $ffi_Data_Bounded['topChar'] ?? null;
+$GLOBALS['Data_Bounded_bottomChar'] = $ffi_Data_Bounded['bottomChar'] ?? null;
+$GLOBALS['Data_Bounded_topNumber'] = $ffi_Data_Bounded['topNumber'] ?? null;
+$GLOBALS['Data_Bounded_bottomNumber'] = $ffi_Data_Bounded['bottomNumber'] ?? null;
+
 
 // Data_Bounded_Bounded$Dict
 function Data_Bounded_Bounded__dollar__Dict($x) {

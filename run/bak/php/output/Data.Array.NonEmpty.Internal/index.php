@@ -185,12 +185,13 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Array_NonEmpty_Internal_foldr1Impl = function($f, $xs = null) {
+$ffi_Data_Array_NonEmpty_Internal = \call_user_func(function() {
+$foldr1Impl = function($f, $xs = null) use (&$foldr1Impl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_NonEmpty_Internal_foldr1Impl;
-            return $Data_Array_NonEmpty_Internal_foldr1Impl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$foldr1Impl) {
+
+            return $foldr1Impl(...array_merge($__args, $more));
         };
     }
     $acc = $xs[count($xs) - 1];
@@ -200,12 +201,12 @@ $Data_Array_NonEmpty_Internal_foldr1Impl = function($f, $xs = null) {
     return $acc;
 };
 
-$Data_Array_NonEmpty_Internal_foldl1Impl = function($f, $xs = null) {
+$foldl1Impl = function($f, $xs = null) use (&$foldl1Impl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_NonEmpty_Internal_foldl1Impl;
-            return $Data_Array_NonEmpty_Internal_foldl1Impl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$foldl1Impl) {
+
+            return $foldl1Impl(...array_merge($__args, $more));
         };
     }
     $acc = $xs[0];
@@ -216,12 +217,12 @@ $Data_Array_NonEmpty_Internal_foldl1Impl = function($f, $xs = null) {
     return $acc;
 };
 
-$Data_Array_NonEmpty_Internal_traverse1Impl = function($apply, $map = null, $f = null) {
+$traverse1Impl = function($apply, $map = null, $f = null) use (&$traverse1Impl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_NonEmpty_Internal_traverse1Impl;
-            return $Data_Array_NonEmpty_Internal_traverse1Impl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$traverse1Impl) {
+
+            return $traverse1Impl(...array_merge($__args, $more));
         };
     }
 
@@ -281,6 +282,16 @@ $Data_Array_NonEmpty_Internal_traverse1Impl = function($apply, $map = null, $f =
         return $map($listToArray)($result);
     };
 };
+
+$exports['foldr1Impl'] = $foldr1Impl;
+$exports['foldl1Impl'] = $foldl1Impl;
+$exports['traverse1Impl'] = $traverse1Impl;
+return $exports;
+});
+$GLOBALS['Data_Array_NonEmpty_Internal_foldr1Impl'] = $ffi_Data_Array_NonEmpty_Internal['foldr1Impl'] ?? null;
+$GLOBALS['Data_Array_NonEmpty_Internal_foldl1Impl'] = $ffi_Data_Array_NonEmpty_Internal['foldl1Impl'] ?? null;
+$GLOBALS['Data_Array_NonEmpty_Internal_traverse1Impl'] = $ffi_Data_Array_NonEmpty_Internal['traverse1Impl'] ?? null;
+
 
 
 // Data_Array_NonEmpty_Internal_NonEmptyArray

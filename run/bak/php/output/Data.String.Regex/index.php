@@ -102,16 +102,17 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_String_Regex_showRegexImpl = function($r) {
+$ffi_Data_String_Regex = \call_user_func(function() {
+$showRegexImpl = function($r) use (&$showRegexImpl) {
     return $r->pattern;
 };
 
-$Data_String_Regex_regexImpl = function($left, $right = null, $s1 = null, $s2 = null) {
+$regexImpl = function($left, $right = null, $s1 = null, $s2 = null) use (&$regexImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex_regexImpl;
-            return $Data_String_Regex_regexImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$showRegexImpl) {
+
+            return $regexImpl(...array_merge($__args, $more));
         };
     }
     $pattern = '/' . str_replace('/', '\/', $s1) . '/' . $s2;
@@ -121,11 +122,11 @@ $Data_String_Regex_regexImpl = function($left, $right = null, $s1 = null, $s2 = 
     return $right((object)["pattern" => $pattern, "source" => $s1, "flags" => $s2]);
 };
 
-$Data_String_Regex_source = function($r) {
+$source = function($r) use (&$source) {
     return $r->source;
 };
 
-$Data_String_Regex_flagsImpl = function($r) {
+$flagsImpl = function($r) use (&$flagsImpl) {
     return (object)[
         "multiline" => strpos($r->flags, 'm') !== false,
         "ignoreCase" => strpos($r->flags, 'i') !== false,
@@ -136,23 +137,23 @@ $Data_String_Regex_flagsImpl = function($r) {
     ];
 };
 
-$Data_String_Regex_test = function($r, $s = null) {
+$test = function($r, $s = null) use (&$test) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex_test;
-            return $Data_String_Regex_test(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$regexImpl) {
+
+            return $test(...array_merge($__args, $more));
         };
     }
     return preg_match($r->pattern, $s) === 1;
 };
 
-$Data_String_Regex__match = function($just, $nothing = null, $r = null, $s = null) {
+$_match = function($just, $nothing = null, $r = null, $s = null) use (&$_match) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex__match;
-            return $Data_String_Regex__match(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$source) {
+
+            return $_match(...array_merge($__args, $more));
         };
     }
     if (strpos($r->flags, 'g') !== false) {
@@ -177,24 +178,24 @@ $Data_String_Regex__match = function($just, $nothing = null, $r = null, $s = nul
     return $nothing;
 };
 
-$Data_String_Regex_replace = function($r, $s1 = null, $s2 = null) {
+$replace = function($r, $s1 = null, $s2 = null) use (&$replace) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex_replace;
-            return $Data_String_Regex_replace(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$flagsImpl) {
+
+            return $replace(...array_merge($__args, $more));
         };
     }
     $limit = strpos($r->flags, 'g') !== false ? -1 : 1;
     return preg_replace($r->pattern, $s1, $s2, $limit);
 };
 
-$Data_String_Regex__replaceBy = function($just, $nothing = null, $r = null, $f = null, $s = null) {
+$_replaceBy = function($just, $nothing = null, $r = null, $f = null, $s = null) use (&$_replaceBy) {
     if (func_num_args() < 5) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex__replaceBy;
-            return $Data_String_Regex__replaceBy(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$test) {
+
+            return $_replaceBy(...array_merge($__args, $more));
         };
     }
     $limit = strpos($r->flags, 'g') !== false ? -1 : 1;
@@ -209,12 +210,12 @@ $Data_String_Regex__replaceBy = function($just, $nothing = null, $r = null, $f =
     }, $s, $limit);
 };
 
-$Data_String_Regex__search = function($just, $nothing = null, $r = null, $s = null) {
+$_search = function($just, $nothing = null, $r = null, $s = null) use (&$_search) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex__search;
-            return $Data_String_Regex__search(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$_match) {
+
+            return $_search(...array_merge($__args, $more));
         };
     }
     if (preg_match($r->pattern, $s, $matches, PREG_OFFSET_CAPTURE)) {
@@ -223,17 +224,41 @@ $Data_String_Regex__search = function($just, $nothing = null, $r = null, $s = nu
     return $nothing;
 };
 
-$Data_String_Regex_split = function($r, $s = null) {
+$split = function($r, $s = null) use (&$split) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_String_Regex_split;
-            return $Data_String_Regex_split(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$replace) {
+
+            return $split(...array_merge($__args, $more));
         };
     }
     $limit = strpos($r->flags, 'g') !== false ? -1 : 2;
     return preg_split($r->pattern, $s, $limit);
 };
+
+$exports['showRegexImpl'] = $showRegexImpl;
+$exports['regexImpl'] = $regexImpl;
+$exports['source'] = $source;
+$exports['flagsImpl'] = $flagsImpl;
+$exports['test'] = $test;
+$exports['_match'] = $_match;
+$exports['replace'] = $replace;
+$exports['_replaceBy'] = $_replaceBy;
+$exports['_search'] = $_search;
+$exports['split'] = $split;
+return $exports;
+});
+$GLOBALS['Data_String_Regex_showRegexImpl'] = $ffi_Data_String_Regex['showRegexImpl'] ?? null;
+$GLOBALS['Data_String_Regex_regexImpl'] = $ffi_Data_String_Regex['regexImpl'] ?? null;
+$GLOBALS['Data_String_Regex_source'] = $ffi_Data_String_Regex['source'] ?? null;
+$GLOBALS['Data_String_Regex_flagsImpl'] = $ffi_Data_String_Regex['flagsImpl'] ?? null;
+$GLOBALS['Data_String_Regex_test'] = $ffi_Data_String_Regex['test'] ?? null;
+$GLOBALS['Data_String_Regex__match'] = $ffi_Data_String_Regex['_match'] ?? null;
+$GLOBALS['Data_String_Regex_replace'] = $ffi_Data_String_Regex['replace'] ?? null;
+$GLOBALS['Data_String_Regex__replaceBy'] = $ffi_Data_String_Regex['_replaceBy'] ?? null;
+$GLOBALS['Data_String_Regex__search'] = $ffi_Data_String_Regex['_search'] ?? null;
+$GLOBALS['Data_String_Regex_split'] = $ffi_Data_String_Regex['split'] ?? null;
+
 
 
 // Data_String_Regex_renderFlags

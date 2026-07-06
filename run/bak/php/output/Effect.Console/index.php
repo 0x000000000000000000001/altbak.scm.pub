@@ -98,7 +98,25 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Effect_Console_log = function($s) { return function() use(&$s) { print($s . "\n"); }; };
+$ffi_Effect_Console = \call_user_func(function() {
+$log = function($s) use (&$log) { return function() use(&$s) { print($s . "\n"); }; };
+
+$exports['log'] = $log;
+return $exports;
+});
+$GLOBALS['Effect_Console_log'] = $ffi_Effect_Console['log'] ?? null;
+$GLOBALS['Effect_Console_warn'] = $ffi_Effect_Console['warn'] ?? null;
+$GLOBALS['Effect_Console_error'] = $ffi_Effect_Console['error'] ?? null;
+$GLOBALS['Effect_Console_info'] = $ffi_Effect_Console['info'] ?? null;
+$GLOBALS['Effect_Console_debug'] = $ffi_Effect_Console['debug'] ?? null;
+$GLOBALS['Effect_Console_time'] = $ffi_Effect_Console['time'] ?? null;
+$GLOBALS['Effect_Console_timeLog'] = $ffi_Effect_Console['timeLog'] ?? null;
+$GLOBALS['Effect_Console_timeEnd'] = $ffi_Effect_Console['timeEnd'] ?? null;
+$GLOBALS['Effect_Console_clear'] = $ffi_Effect_Console['clear'] ?? null;
+$GLOBALS['Effect_Console_group'] = $ffi_Effect_Console['group'] ?? null;
+$GLOBALS['Effect_Console_groupCollapsed'] = $ffi_Effect_Console['groupCollapsed'] ?? null;
+$GLOBALS['Effect_Console_groupEnd'] = $ffi_Effect_Console['groupEnd'] ?? null;
+
 
 // Effect_Console_logShow
 function Effect_Console_logShow($dictShow) {

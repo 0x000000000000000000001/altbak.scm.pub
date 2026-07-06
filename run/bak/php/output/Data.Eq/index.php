@@ -3,6 +3,7 @@
 namespace Data\Eq;
 
 require_once __DIR__ . '/../Data.Eq/index.php';
+require_once __DIR__ . '/../Data.HeytingAlgebra/index.php';
 require_once __DIR__ . '/../Data.Unit/index.php';
 
 if (!class_exists(__NAMESPACE__ . '\\Phpurs_Data0')) {
@@ -87,6 +88,7 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
     if (array_key_exists($id, $cache)) return $cache[$id];
     switch ($id) {
       case 'Data_Eq_eqInt': $v = (object)["eq" => ($GLOBALS['Data_Eq_eqIntImpl'] ?? \Data\Eq\phpurs_eval_thunk('Data_Eq_eqIntImpl'))]; break;
+      case 'Data_Eq_eqChar': $v = (object)["eq" => ($GLOBALS['Data_Eq_eqCharImpl'] ?? \Data\Eq\phpurs_eval_thunk('Data_Eq_eqCharImpl'))]; break;
       case 'Data_Eq_eqBoolean': $v = (object)["eq" => ($GLOBALS['Data_Eq_eqBooleanImpl'] ?? \Data\Eq\phpurs_eval_thunk('Data_Eq_eqBooleanImpl'))]; break;
       case 'Data_Eq_eq2': $v = ($GLOBALS['Data_Eq_eqBooleanImpl'] ?? \Data\Eq\phpurs_eval_thunk('Data_Eq_eqBooleanImpl')); break;
       default: throw new \Exception("Unknown thunk " . $id);
@@ -96,20 +98,36 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Eq_eqIntImpl = function($a, $b = null) {
+$ffi_Data_Eq = \call_user_func(function() {
+$eqIntImpl = function($a, $b = null) use (&$eqIntImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Eq_eqIntImpl;
-            return $Data_Eq_eqIntImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$eqIntImpl) {
+
+            return $eqIntImpl(...array_merge($__args, $more));
         };
     }
     return $a === $b;
 };
-$Data_Eq_eqStringImpl = $Data_Eq_eqIntImpl;
-$Data_Eq_eqNumberImpl = $Data_Eq_eqIntImpl;
-$Data_Eq_eqCharImpl = $Data_Eq_eqIntImpl;
-$Data_Eq_eqBooleanImpl = $Data_Eq_eqIntImpl;
+$eqStringImpl = $eqIntImpl;
+$eqNumberImpl = $eqIntImpl;
+$eqCharImpl = $eqIntImpl;
+$eqBooleanImpl = $eqIntImpl;
+
+$exports['eqIntImpl'] = $eqIntImpl;
+$exports['eqStringImpl'] = $eqStringImpl;
+$exports['eqNumberImpl'] = $eqNumberImpl;
+$exports['eqCharImpl'] = $eqCharImpl;
+$exports['eqBooleanImpl'] = $eqBooleanImpl;
+return $exports;
+});
+$GLOBALS['Data_Eq_eqBooleanImpl'] = $ffi_Data_Eq['eqBooleanImpl'] ?? null;
+$GLOBALS['Data_Eq_eqIntImpl'] = $ffi_Data_Eq['eqIntImpl'] ?? null;
+$GLOBALS['Data_Eq_eqNumberImpl'] = $ffi_Data_Eq['eqNumberImpl'] ?? null;
+$GLOBALS['Data_Eq_eqCharImpl'] = $ffi_Data_Eq['eqCharImpl'] ?? null;
+$GLOBALS['Data_Eq_eqStringImpl'] = $ffi_Data_Eq['eqStringImpl'] ?? null;
+$GLOBALS['Data_Eq_eqArrayImpl'] = $ffi_Data_Eq['eqArrayImpl'] ?? null;
+
 
 // Data_Eq_Eq$Dict
 function Data_Eq_Eq__dollar__Dict($x) {
@@ -124,6 +142,7 @@ function Data_Eq_Eq__dollar__Dict($x) {
   return 1 < $__num ? $__res(...array_slice(func_get_args(), 1)) : $__res;
 }
 $GLOBALS['Data_Eq_Eq__dollar__Dict'] = __NAMESPACE__ . '\\Data_Eq_Eq__dollar__Dict';
+
 
 
 

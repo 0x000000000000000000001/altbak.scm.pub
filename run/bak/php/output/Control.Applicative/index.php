@@ -96,7 +96,14 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Control_Applicative_arrayPure = function($x) { return [$x]; };
+$ffi_Control_Applicative = \call_user_func(function() {
+$arrayPure = function($x) use (&$arrayPure) { return [$x]; };
+
+$exports['arrayPure'] = $arrayPure;
+return $exports;
+});
+
+
 
 // Control_Applicative_Applicative$Dict
 function Control_Applicative_Applicative__dollar__Dict($x) {

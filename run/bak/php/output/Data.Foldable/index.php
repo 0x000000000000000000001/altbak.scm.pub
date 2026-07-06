@@ -1480,26 +1480,35 @@ throw new \Exception("Pattern match failure");
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Foldable_foldrArray = function($f, $init = null, $xs = null) {
+$ffi_Data_Foldable = \call_user_func(function() {
+$foldrArray = function($f, $init = null, $xs = null) use (&$foldrArray) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Foldable_foldrArray;
-            return $Data_Foldable_foldrArray(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$foldrArray) {
+
+            return $foldrArray(...array_merge($__args, $more));
         };
     }
     $acc = $init; for($i=count($xs)-1; $i>=0; $i--) { $acc = $f($xs[$i])($acc); } return $acc;
 };
-$Data_Foldable_foldlArray = function($f, $init = null, $xs = null) {
+$foldlArray = function($f, $init = null, $xs = null) use (&$foldlArray) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Foldable_foldlArray;
-            return $Data_Foldable_foldlArray(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$foldlArray) {
+
+            return $foldlArray(...array_merge($__args, $more));
         };
     }
     $acc = $init; foreach($xs as $x) { $acc = $f($acc)($x); } return $acc;
 };
+
+$exports['foldrArray'] = $foldrArray;
+$exports['foldlArray'] = $foldlArray;
+return $exports;
+});
+$GLOBALS['Data_Foldable_foldrArray'] = $ffi_Data_Foldable['foldrArray'] ?? null;
+$GLOBALS['Data_Foldable_foldlArray'] = $ffi_Data_Foldable['foldlArray'] ?? null;
+
 
 
 

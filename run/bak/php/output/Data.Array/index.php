@@ -111,12 +111,13 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_Array_rangeImpl = function($start, $end = null) {
+$ffi_Data_Array = \call_user_func(function() {
+$rangeImpl = function($start, $end = null) use (&$rangeImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_rangeImpl;
-            return $Data_Array_rangeImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$rangeImpl) {
+
+            return $rangeImpl(...array_merge($__args, $more));
         };
     }
     $step = $start > $end ? -1 : 1;
@@ -130,24 +131,24 @@ $Data_Array_rangeImpl = function($start, $end = null) {
     return $result;
 };
 
-$Data_Array_replicateImpl = function($count, $value = null) {
+$replicateImpl = function($count, $value = null) use (&$replicateImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_replicateImpl;
-            return $Data_Array_replicateImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$replicateImpl) {
+
+            return $replicateImpl(...array_merge($__args, $more));
         };
     }
     if ($count < 1) return [];
     return array_fill(0, $count, $value);
 };
 
-$Data_Array_fromFoldableImpl = function($foldr, $xs = null) {
+$fromFoldableImpl = function($foldr, $xs = null) use (&$fromFoldableImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_fromFoldableImpl;
-            return $Data_Array_fromFoldableImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$fromFoldableImpl) {
+
+            return $fromFoldableImpl(...array_merge($__args, $more));
         };
     }
     
@@ -174,39 +175,39 @@ $Data_Array_fromFoldableImpl = function($foldr, $xs = null) {
     return $listToArray($foldr($curryCons)($emptyList)($xs));
 };
 
-$Data_Array_length = function($xs) {
+$length = function($xs) use (&$length) {
     return count($xs);
 };
 
-$Data_Array_unconsImpl = function($empty, $next = null, $xs = null) {
+$unconsImpl = function($empty, $next = null, $xs = null) use (&$unconsImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_unconsImpl;
-            return $Data_Array_unconsImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$length) {
+
+            return $unconsImpl(...array_merge($__args, $more));
         };
     }
     if (count($xs) === 0) return $empty((object)[]);
     return $next($xs[0])(array_slice($xs, 1));
 };
 
-$Data_Array_indexImpl = function($just, $nothing = null, $xs = null, $i = null) {
+$indexImpl = function($just, $nothing = null, $xs = null, $i = null) use (&$indexImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_indexImpl;
-            return $Data_Array_indexImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$unconsImpl) {
+
+            return $indexImpl(...array_merge($__args, $more));
         };
     }
     return ($i < 0 || $i >= count($xs)) ? $nothing : $just($xs[$i]);
 };
 
-$Data_Array_findMapImpl = function($nothing, $isJust = null, $f = null, $xs = null) {
+$findMapImpl = function($nothing, $isJust = null, $f = null, $xs = null) use (&$findMapImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_findMapImpl;
-            return $Data_Array_findMapImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$indexImpl) {
+
+            return $findMapImpl(...array_merge($__args, $more));
         };
     }
     foreach ($xs as $x) {
@@ -216,12 +217,12 @@ $Data_Array_findMapImpl = function($nothing, $isJust = null, $f = null, $xs = nu
     return $nothing;
 };
 
-$Data_Array_findIndexImpl = function($just, $nothing = null, $f = null, $xs = null) {
+$findIndexImpl = function($just, $nothing = null, $f = null, $xs = null) use (&$findIndexImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_findIndexImpl;
-            return $Data_Array_findIndexImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$findMapImpl) {
+
+            return $findIndexImpl(...array_merge($__args, $more));
         };
     }
     foreach ($xs as $i => $x) {
@@ -230,12 +231,12 @@ $Data_Array_findIndexImpl = function($just, $nothing = null, $f = null, $xs = nu
     return $nothing;
 };
 
-$Data_Array_findLastIndexImpl = function($just, $nothing = null, $f = null, $xs = null) {
+$findLastIndexImpl = function($just, $nothing = null, $f = null, $xs = null) use (&$findLastIndexImpl) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_findLastIndexImpl;
-            return $Data_Array_findLastIndexImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$findIndexImpl) {
+
+            return $findLastIndexImpl(...array_merge($__args, $more));
         };
     }
     for ($i = count($xs) - 1; $i >= 0; $i--) {
@@ -244,12 +245,12 @@ $Data_Array_findLastIndexImpl = function($just, $nothing = null, $f = null, $xs 
     return $nothing;
 };
 
-$Data_Array__insertAt = function($just, $nothing = null, $i = null, $a = null, $l = null) {
+$_insertAt = function($just, $nothing = null, $i = null, $a = null, $l = null) use (&$_insertAt) {
     if (func_num_args() < 5) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array__insertAt;
-            return $Data_Array__insertAt(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$findLastIndexImpl) {
+
+            return $_insertAt(...array_merge($__args, $more));
         };
     }
     if ($i < 0 || $i > count($l)) return $nothing;
@@ -258,12 +259,12 @@ $Data_Array__insertAt = function($just, $nothing = null, $i = null, $a = null, $
     return $just($l1);
 };
 
-$Data_Array__deleteAt = function($just, $nothing = null, $i = null, $l = null) {
+$_deleteAt = function($just, $nothing = null, $i = null, $l = null) use (&$_deleteAt) {
     if (func_num_args() < 4) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array__deleteAt;
-            return $Data_Array__deleteAt(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$_insertAt) {
+
+            return $_deleteAt(...array_merge($__args, $more));
         };
     }
     if ($i < 0 || $i >= count($l)) return $nothing;
@@ -272,12 +273,12 @@ $Data_Array__deleteAt = function($just, $nothing = null, $i = null, $l = null) {
     return $just($l1);
 };
 
-$Data_Array__updateAt = function($just, $nothing = null, $i = null, $a = null, $l = null) {
+$_updateAt = function($just, $nothing = null, $i = null, $a = null, $l = null) use (&$_updateAt) {
     if (func_num_args() < 5) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array__updateAt;
-            return $Data_Array__updateAt(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$_deleteAt) {
+
+            return $_updateAt(...array_merge($__args, $more));
         };
     }
     if ($i < 0 || $i >= count($l)) return $nothing;
@@ -286,21 +287,21 @@ $Data_Array__updateAt = function($just, $nothing = null, $i = null, $a = null, $
     return $just($l1);
 };
 
-$Data_Array_reverse = function($l) {
+$reverse = function($l) use (&$reverse) {
     return array_reverse($l);
 };
 
-$Data_Array_concat = function($xss) {
+$concat = function($xss) use (&$concat) {
     if (count($xss) === 0) return [];
     return array_merge(...$xss);
 };
 
-$Data_Array_filterImpl = function($f, $xs = null) {
+$filterImpl = function($f, $xs = null) use (&$filterImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_filterImpl;
-            return $Data_Array_filterImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$_updateAt) {
+
+            return $filterImpl(...array_merge($__args, $more));
         };
     }
     $res = [];
@@ -310,12 +311,12 @@ $Data_Array_filterImpl = function($f, $xs = null) {
     return $res;
 };
 
-$Data_Array_partitionImpl = function($f, $xs = null) {
+$partitionImpl = function($f, $xs = null) use (&$partitionImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_partitionImpl;
-            return $Data_Array_partitionImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$reverse) {
+
+            return $partitionImpl(...array_merge($__args, $more));
         };
     }
     $yes = [];
@@ -327,12 +328,12 @@ $Data_Array_partitionImpl = function($f, $xs = null) {
     return (object)["yes" => $yes, "no" => $no];
 };
 
-$Data_Array_scanlImpl = function($f, $b = null, $xs = null) {
+$scanlImpl = function($f, $b = null, $xs = null) use (&$scanlImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_scanlImpl;
-            return $Data_Array_scanlImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$concat) {
+
+            return $scanlImpl(...array_merge($__args, $more));
         };
     }
     $acc = $b;
@@ -344,12 +345,12 @@ $Data_Array_scanlImpl = function($f, $b = null, $xs = null) {
     return $out;
 };
 
-$Data_Array_scanrImpl = function($f, $b = null, $xs = null) {
+$scanrImpl = function($f, $b = null, $xs = null) use (&$scanrImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_scanrImpl;
-            return $Data_Array_scanrImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$filterImpl) {
+
+            return $scanrImpl(...array_merge($__args, $more));
         };
     }
     $len = count($xs);
@@ -362,12 +363,12 @@ $Data_Array_scanrImpl = function($f, $b = null, $xs = null) {
     return $out;
 };
 
-$Data_Array_sortByImpl = function($compare, $fromOrdering = null, $xs = null) {
+$sortByImpl = function($compare, $fromOrdering = null, $xs = null) use (&$sortByImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_sortByImpl;
-            return $Data_Array_sortByImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$partitionImpl) {
+
+            return $sortByImpl(...array_merge($__args, $more));
         };
     }
     $out = $xs;
@@ -377,23 +378,23 @@ $Data_Array_sortByImpl = function($compare, $fromOrdering = null, $xs = null) {
     return $out;
 };
 
-$Data_Array_sliceImpl = function($s, $e = null, $l = null) {
+$sliceImpl = function($s, $e = null, $l = null) use (&$sliceImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_sliceImpl;
-            return $Data_Array_sliceImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$scanlImpl) {
+
+            return $sliceImpl(...array_merge($__args, $more));
         };
     }
     return array_slice($l, $s, $e - $s);
 };
 
-$Data_Array_zipWithImpl = function($f, $xs = null, $ys = null) {
+$zipWithImpl = function($f, $xs = null, $ys = null) use (&$zipWithImpl) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_zipWithImpl;
-            return $Data_Array_zipWithImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$scanrImpl) {
+
+            return $zipWithImpl(...array_merge($__args, $more));
         };
     }
     $l = min(count($xs), count($ys));
@@ -404,12 +405,12 @@ $Data_Array_zipWithImpl = function($f, $xs = null, $ys = null) {
     return $result;
 };
 
-$Data_Array_anyImpl = function($p, $xs = null) {
+$anyImpl = function($p, $xs = null) use (&$anyImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_anyImpl;
-            return $Data_Array_anyImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$sortByImpl) {
+
+            return $anyImpl(...array_merge($__args, $more));
         };
     }
     foreach ($xs as $x) {
@@ -418,12 +419,12 @@ $Data_Array_anyImpl = function($p, $xs = null) {
     return false;
 };
 
-$Data_Array_allImpl = function($p, $xs = null) {
+$allImpl = function($p, $xs = null) use (&$allImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_allImpl;
-            return $Data_Array_allImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$sliceImpl) {
+
+            return $allImpl(...array_merge($__args, $more));
         };
     }
     foreach ($xs as $x) {
@@ -432,15 +433,67 @@ $Data_Array_allImpl = function($p, $xs = null) {
     return true;
 };
 
-$Data_Array_unsafeIndexImpl = function($xs, $n = null) {
+$unsafeIndexImpl = function($xs, $n = null) use (&$unsafeIndexImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_Array_unsafeIndexImpl;
-            return $Data_Array_unsafeIndexImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$zipWithImpl) {
+
+            return $unsafeIndexImpl(...array_merge($__args, $more));
         };
     }
     return $xs[$n];
 };
+
+$exports['rangeImpl'] = $rangeImpl;
+$exports['replicateImpl'] = $replicateImpl;
+$exports['fromFoldableImpl'] = $fromFoldableImpl;
+$exports['length'] = $length;
+$exports['unconsImpl'] = $unconsImpl;
+$exports['indexImpl'] = $indexImpl;
+$exports['findMapImpl'] = $findMapImpl;
+$exports['findIndexImpl'] = $findIndexImpl;
+$exports['findLastIndexImpl'] = $findLastIndexImpl;
+$exports['_insertAt'] = $_insertAt;
+$exports['_deleteAt'] = $_deleteAt;
+$exports['_updateAt'] = $_updateAt;
+$exports['reverse'] = $reverse;
+$exports['concat'] = $concat;
+$exports['filterImpl'] = $filterImpl;
+$exports['partitionImpl'] = $partitionImpl;
+$exports['scanlImpl'] = $scanlImpl;
+$exports['scanrImpl'] = $scanrImpl;
+$exports['sortByImpl'] = $sortByImpl;
+$exports['sliceImpl'] = $sliceImpl;
+$exports['zipWithImpl'] = $zipWithImpl;
+$exports['anyImpl'] = $anyImpl;
+$exports['allImpl'] = $allImpl;
+$exports['unsafeIndexImpl'] = $unsafeIndexImpl;
+return $exports;
+});
+$GLOBALS['Data_Array_fromFoldableImpl'] = $ffi_Data_Array['fromFoldableImpl'] ?? null;
+$GLOBALS['Data_Array_rangeImpl'] = $ffi_Data_Array['rangeImpl'] ?? null;
+$GLOBALS['Data_Array_replicateImpl'] = $ffi_Data_Array['replicateImpl'] ?? null;
+$GLOBALS['Data_Array_length'] = $ffi_Data_Array['length'] ?? null;
+$GLOBALS['Data_Array_unconsImpl'] = $ffi_Data_Array['unconsImpl'] ?? null;
+$GLOBALS['Data_Array_indexImpl'] = $ffi_Data_Array['indexImpl'] ?? null;
+$GLOBALS['Data_Array_findMapImpl'] = $ffi_Data_Array['findMapImpl'] ?? null;
+$GLOBALS['Data_Array_findIndexImpl'] = $ffi_Data_Array['findIndexImpl'] ?? null;
+$GLOBALS['Data_Array_findLastIndexImpl'] = $ffi_Data_Array['findLastIndexImpl'] ?? null;
+$GLOBALS['Data_Array__insertAt'] = $ffi_Data_Array['_insertAt'] ?? null;
+$GLOBALS['Data_Array__deleteAt'] = $ffi_Data_Array['_deleteAt'] ?? null;
+$GLOBALS['Data_Array__updateAt'] = $ffi_Data_Array['_updateAt'] ?? null;
+$GLOBALS['Data_Array_reverse'] = $ffi_Data_Array['reverse'] ?? null;
+$GLOBALS['Data_Array_concat'] = $ffi_Data_Array['concat'] ?? null;
+$GLOBALS['Data_Array_filterImpl'] = $ffi_Data_Array['filterImpl'] ?? null;
+$GLOBALS['Data_Array_partitionImpl'] = $ffi_Data_Array['partitionImpl'] ?? null;
+$GLOBALS['Data_Array_scanlImpl'] = $ffi_Data_Array['scanlImpl'] ?? null;
+$GLOBALS['Data_Array_scanrImpl'] = $ffi_Data_Array['scanrImpl'] ?? null;
+$GLOBALS['Data_Array_sortByImpl'] = $ffi_Data_Array['sortByImpl'] ?? null;
+$GLOBALS['Data_Array_sliceImpl'] = $ffi_Data_Array['sliceImpl'] ?? null;
+$GLOBALS['Data_Array_zipWithImpl'] = $ffi_Data_Array['zipWithImpl'] ?? null;
+$GLOBALS['Data_Array_anyImpl'] = $ffi_Data_Array['anyImpl'] ?? null;
+$GLOBALS['Data_Array_allImpl'] = $ffi_Data_Array['allImpl'] ?? null;
+$GLOBALS['Data_Array_unsafeIndexImpl'] = $ffi_Data_Array['unsafeIndexImpl'] ?? null;
+
 
 

@@ -109,27 +109,38 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Data_HeytingAlgebra_boolConj = function($a, $b = null) {
+$ffi_Data_HeytingAlgebra = \call_user_func(function() {
+$boolConj = function($a, $b = null) use (&$boolConj) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_HeytingAlgebra_boolConj;
-            return $Data_HeytingAlgebra_boolConj(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$boolConj) {
+
+            return $boolConj(...array_merge($__args, $more));
         };
     }
     return $a && $b;
 };
-$Data_HeytingAlgebra_boolDisj = function($a, $b = null) {
+$boolDisj = function($a, $b = null) use (&$boolDisj) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Data_HeytingAlgebra_boolDisj;
-            return $Data_HeytingAlgebra_boolDisj(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$boolDisj) {
+
+            return $boolDisj(...array_merge($__args, $more));
         };
     }
     return $a || $b;
 };
-$Data_HeytingAlgebra_boolNot = function($a) { return !$a; };
+$boolNot = function($a) use (&$boolNot) { return !$a; };
+
+$exports['boolConj'] = $boolConj;
+$exports['boolDisj'] = $boolDisj;
+$exports['boolNot'] = $boolNot;
+return $exports;
+});
+$GLOBALS['Data_HeytingAlgebra_boolConj'] = $ffi_Data_HeytingAlgebra['boolConj'] ?? null;
+$GLOBALS['Data_HeytingAlgebra_boolDisj'] = $ffi_Data_HeytingAlgebra['boolDisj'] ?? null;
+$GLOBALS['Data_HeytingAlgebra_boolNot'] = $ffi_Data_HeytingAlgebra['boolNot'] ?? null;
+
 
 // Data_HeytingAlgebra_HeytingAlgebra$Dict
 function Data_HeytingAlgebra_HeytingAlgebra__dollar__Dict($x) {

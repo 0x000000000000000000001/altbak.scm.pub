@@ -7,6 +7,7 @@ require_once __DIR__ . '/../Control.Apply/index.php';
 require_once __DIR__ . '/../Control.Bind/index.php';
 require_once __DIR__ . '/../Control.Monad/index.php';
 require_once __DIR__ . '/../Data.Functor/index.php';
+require_once __DIR__ . '/../Data.Semigroup/index.php';
 require_once __DIR__ . '/../Effect/index.php';
 
 if (!class_exists(__NAMESPACE__ . '\\Phpurs_Data0')) {
@@ -137,17 +138,30 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Effect_pureE = function($x) { return function() use(&$x) { return $x; }; };
-$Effect_bindE = function($a, $f = null) {
+$ffi_Effect = \call_user_func(function() {
+$pureE = function($x) use (&$pureE) { return function() use(&$x) { return $x; }; };
+$bindE = function($a, $f = null) use (&$bindE) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Effect_bindE;
-            return $Effect_bindE(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$pureE) {
+
+            return $bindE(...array_merge($__args, $more));
         };
     }
     return function() use(&$a, &$f) { return $f($a())(); };
 };
+
+$exports['pureE'] = $pureE;
+$exports['bindE'] = $bindE;
+return $exports;
+});
+$GLOBALS['Effect_pureE'] = $ffi_Effect['pureE'] ?? null;
+$GLOBALS['Effect_bindE'] = $ffi_Effect['bindE'] ?? null;
+$GLOBALS['Effect_untilE'] = $ffi_Effect['untilE'] ?? null;
+$GLOBALS['Effect_whileE'] = $ffi_Effect['whileE'] ?? null;
+$GLOBALS['Effect_forE'] = $ffi_Effect['forE'] ?? null;
+$GLOBALS['Effect_foreachE'] = $ffi_Effect['foreachE'] ?? null;
+
 
 
 

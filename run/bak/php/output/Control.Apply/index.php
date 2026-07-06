@@ -3,6 +3,7 @@
 namespace Control\Apply;
 
 require_once __DIR__ . '/../Control.Apply/index.php';
+require_once __DIR__ . '/../Data.Function/index.php';
 require_once __DIR__ . '/../Data.Functor/index.php';
 
 if (!class_exists(__NAMESPACE__ . '\\Phpurs_Data0')) {
@@ -94,16 +95,23 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Control_Apply_arrayApply = function($fs, $xs = null) {
+$ffi_Control_Apply = \call_user_func(function() {
+$arrayApply = function($fs, $xs = null) use (&$arrayApply) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Apply_arrayApply;
-            return $Control_Apply_arrayApply(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$arrayApply) {
+
+            return $arrayApply(...array_merge($__args, $more));
         };
     }
     $r = []; foreach($fs as $f) { foreach($xs as $x) { $r[] = $f($x); } } return $r;
 };
+
+$exports['arrayApply'] = $arrayApply;
+return $exports;
+});
+$GLOBALS['Control_Apply_arrayApply'] = $ffi_Control_Apply['arrayApply'] ?? null;
+
 
 // Control_Apply_Apply$Dict
 function Control_Apply_Apply__dollar__Dict($x) {

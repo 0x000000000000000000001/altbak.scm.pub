@@ -140,80 +140,107 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
-$Control_Monad_ST_Internal_map_ = function($f, $a = null) {
+$ffi_Control_Monad_ST_Internal = \call_user_func(function() {
+$map_ = function($f, $a = null) use (&$map_) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_map_;
-            return $Control_Monad_ST_Internal_map_(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$map_) {
+
+            return $map_(...array_merge($__args, $more));
         };
     }
     return function() use(&$f, &$a) { return $f($a()); };
 };
-$Control_Monad_ST_Internal_bind_ = function($a, $f = null) {
+$bind_ = function($a, $f = null) use (&$bind_) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_bind_;
-            return $Control_Monad_ST_Internal_bind_(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$bind_) {
+
+            return $bind_(...array_merge($__args, $more));
         };
     }
     return function() use(&$a, &$f) { return $f($a())(); };
 };
-$Control_Monad_ST_Internal_pure_ = function($a) { return function() use(&$a) { return $a; }; };
-$Control_Monad_ST_Internal_new = function($val) { return function() use(&$val) { return (object)['value' => $val]; }; };
-$Control_Monad_ST_Internal_read = function($ref) { return function() use(&$ref) { return $ref->value; }; };
-$Control_Monad_ST_Internal_modifyImpl = function($f, $ref = null) {
+$pure_ = function($a) use (&$pure_) { return function() use(&$a) { return $a; }; };
+$new = function($val) use (&$new) { return function() use(&$val) { return (object)['value' => $val]; }; };
+$read = function($ref) use (&$read) { return function() use(&$ref) { return $ref->value; }; };
+$modifyImpl = function($f, $ref = null) use (&$modifyImpl) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_modifyImpl;
-            return $Control_Monad_ST_Internal_modifyImpl(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$pure_) {
+
+            return $modifyImpl(...array_merge($__args, $more));
         };
     }
     return function() use(&$f, &$ref) { $t = $f($ref->value); $ref->value = $t->state; return $t->value; };
 };
-$Control_Monad_ST_Internal_write = function($val, $ref = null) {
+$write = function($val, $ref = null) use (&$write) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_write;
-            return $Control_Monad_ST_Internal_write(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$new) {
+
+            return $write(...array_merge($__args, $more));
         };
     }
     return function() use(&$val, &$ref) { $ref->value = $val; return $val; };
 };
-$Control_Monad_ST_Internal_run = function($f) { return $f(); };
-$Control_Monad_ST_Internal_while = function($f, $a = null) {
+$run = function($f) use (&$run) { return $f(); };
+$while = function($f, $a = null) use (&$while) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_while;
-            return $Control_Monad_ST_Internal_while(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$read) {
+
+            return $while(...array_merge($__args, $more));
         };
     }
     return function() use(&$f, &$a) { while ($f()) { $a(); } return null; };
 };
-$Control_Monad_ST_Internal_for = function($lo, $hi = null, $f = null) {
+$for = function($lo, $hi = null, $f = null) use (&$for) {
     if (func_num_args() < 3) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_for;
-            return $Control_Monad_ST_Internal_for(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$modifyImpl) {
+
+            return $for(...array_merge($__args, $more));
         };
     }
     return function() use(&$lo, &$hi, &$f) { for ($i = $lo; $i < $hi; $i++) { $f($i)(); } return null; };
 };
-$Control_Monad_ST_Internal_foreach = function($as, $f = null) {
+$foreach = function($as, $f = null) use (&$foreach) {
     if (func_num_args() < 2) {
         $__args = func_get_args();
-        return function(...$more) use ($__args) {
-            global $Control_Monad_ST_Internal_foreach;
-            return $Control_Monad_ST_Internal_foreach(...array_merge($__args, $more));
+        return function(...$more) use ($__args, &$write) {
+
+            return $foreach(...array_merge($__args, $more));
         };
     }
     return function() use(&$as, &$f) { foreach ($as as $a) { $f($a)(); } return null; };
 };
+
+$exports['map_'] = $map_;
+$exports['bind_'] = $bind_;
+$exports['pure_'] = $pure_;
+$exports['new'] = $new;
+$exports['read'] = $read;
+$exports['modifyImpl'] = $modifyImpl;
+$exports['write'] = $write;
+$exports['run'] = $run;
+$exports['while'] = $while;
+$exports['for'] = $for;
+$exports['foreach'] = $foreach;
+return $exports;
+});
+$GLOBALS['Control_Monad_ST_Internal_map_'] = $ffi_Control_Monad_ST_Internal['map_'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_pure_'] = $ffi_Control_Monad_ST_Internal['pure_'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_bind_'] = $ffi_Control_Monad_ST_Internal['bind_'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_run'] = $ffi_Control_Monad_ST_Internal['run'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_while'] = $ffi_Control_Monad_ST_Internal['while'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_for'] = $ffi_Control_Monad_ST_Internal['for'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_foreach'] = $ffi_Control_Monad_ST_Internal['foreach'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_new'] = $ffi_Control_Monad_ST_Internal['new'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_read'] = $ffi_Control_Monad_ST_Internal['read'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_modifyImpl'] = $ffi_Control_Monad_ST_Internal['modifyImpl'] ?? null;
+$GLOBALS['Control_Monad_ST_Internal_write'] = $ffi_Control_Monad_ST_Internal['write'] ?? null;
+
 
 
 
