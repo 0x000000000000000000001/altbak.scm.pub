@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3755e948bb43a68df7ec63d871c005cd",
+    "content-hash": "9d55296d8579903f819a387a980fe340",
     "packages": [
         {
             "name": "phpurs/lib-deps",
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "../../../output",
+                "url": "output",
                 "reference": "9331789ff7187e8bfab4804b5a5e51931ded41d6"
             },
             "require": {
