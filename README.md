@@ -58,18 +58,6 @@ sys  0m0.419s | sys  0m0.403s  | sys  0m0.526s
 > **A 40 year old dinosaur steals the show!**
 > One of the biggest surprises here is how incredibly performant **Chez Scheme** proves to be. It completely crushes the execution times of modern, highly optimized engines. It is quite a shock to see this "40 year old dinosaur" (first released in 1984!) comfortably outpace standard Node.js, the Arista backend, and Erlang BEAM across a wide array of functional workloads.
 
-## Runtime-Agnostic in the Real World
-
-To prove that this universal multi-runtime abstraction is not just theoretical, it has been successfully battle-tested against the test suite of a real-world project (`b8x`). 
-
-As demonstrated below, you can seamlessly switch from the Node.js backend to the PHP backend. After restarting the backend container, the entire test suite runs without requiring a single change to the PureScript application code. Even better, when running the PHP backend, there is absolutely no need for complex setups like PHP-FPM, Nginx, or FrankenPHP. The generated code carries its own event loop and HTTP server natively. It just runs.
-
-![Seamless runtime switching](runtime-switch.gif)
-
-One of the most interesting takeaways from this experiment is the performance gap. While raw micro-benchmarks might sometimes show a 3x performance gap between Node and PHP, the difference is actually much narrower on a real project where I/O and database interactions are the bottleneck. In our real-world test suite, the execution took **~1.5s on PHP vs ~1.3s on Node** (which is only a ~1.15x difference).
-
-For a deeper dive into this concept, you can read the full article: [The Ultimate Polymorphism: PureScript as a Universal Language](https://dev.to/0x1/the-ultimate-polymorphism-purescript-as-a-universal-language-5gdi).
-
 ## Repository structure and output files
 
 > [!NOTE]
