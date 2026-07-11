@@ -153,19 +153,25 @@ $fromFoldableImpl = function($foldr, $xs = null) use (&$fromFoldableImpl) {
     }
     
     $emptyList = new \stdClass();
-    $curryCons = function($head) {
-        return function($tail) use ($head) {
-            $obj = new \stdClass();
-            $obj->head = $head;
-            $obj->tail = $tail;
-            return $obj;
-        };
+    $curryCons = function($head, $tail = null) {
+        if (func_num_args() < 2) {
+            return function($tail) use ($head) {
+                $obj = new \stdClass();
+                $obj->head = $head;
+                $obj->tail = $tail;
+                return $obj;
+            };
+        }
+        $obj = new \stdClass();
+        $obj->head = $head;
+        $obj->tail = $tail;
+        return $obj;
     };
     
     $listToArray = function($list) use ($emptyList) {
         $result = [];
         $xs = $list;
-        while ($xs !== $emptyList) {
+        while ($xs !== $emptyList && $xs !== null) {
             $result[] = $xs->head;
             $xs = $xs->tail;
         }
