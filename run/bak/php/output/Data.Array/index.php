@@ -378,7 +378,7 @@ $sortByImpl = function($compare, $fromOrdering = null, $xs = null) use (&$sortBy
         };
     }
     $out = $xs;
-    u\sort($out, function($a, $b) use ($compare, $fromOrdering) {
+    \usort($out, function($a, $b) use ($compare, $fromOrdering) {
         return $fromOrdering($compare($a)($b));
     });
     return $out;

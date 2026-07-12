@@ -230,7 +230,7 @@ $sortByImpl = function($compare, $fromOrdering = null, $xs = null) use (&$sortBy
             return $sortByImpl(...\array_merge($__args, $more));
         };
     }
-    u\sort($xs->value, function($a, $b) use ($compare, $fromOrdering) {
+    \usort($xs->value, function($a, $b) use ($compare, $fromOrdering) {
         return $fromOrdering($compare($a)($b));
     });
     return $xs;
