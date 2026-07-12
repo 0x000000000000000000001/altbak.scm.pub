@@ -85,26 +85,7 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
     static $cache = [];
     if (array_key_exists($id, $cache)) return $cache[$id];
     switch ($id) {
-      case 'Control_Semigroupoid_semigroupoidFn': $v = (object)["compose" => (function() use (&$__fn) {
-  $__fn = function($f, $g = null, $x = null) use (&$__fn) {
-  $__num = func_num_args();
-  if ($__num < 3) {
-    if ($__num === 2) return function($x) use ($f, $g, &$__fn) { return $__fn($f, $g, $x); };
-    if ($__num === 1) return function($g, $x = null) use ($f, &$__fn) {
-      $__num2 = func_num_args();
-      if ($__num2 === 2) return $__fn($f, $g, $x);
-      if ($__num2 === 1) return function($x) use ($f, $g, &$__fn) { return $__fn($f, $g, $x); };
-      return phpurs_curry_fallback($__fn, [$f], 3);
-    };
-    return phpurs_curry_fallback($__fn, func_get_args(), 3);
-  }
-  $__res = ($f)(($g)($x));
-  goto __end;;
-  __end:
-  return $__num > 3 ? $__res(...array_slice(func_get_args(), 3)) : $__res;
-  };
-  return $__fn;
-})()]; break;
+      case 'Control_Semigroupoid_semigroupoidFn': $v = (object)["compose" => ($GLOBALS['Control_Semigroupoid_composeImpl'] ?? \Control\Semigroupoid\phpurs_eval_thunk('Control_Semigroupoid_composeImpl'))]; break;
       default: throw new \Exception("Unknown thunk " . $id);
     }
     $GLOBALS[$id] = $v;
@@ -112,6 +93,60 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   }
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
+$ffi_Control_Semigroupoid = \call_user_func(function() {
+$exports = [];
+
+class PhpursCompose {
+    public $f;
+    public $g;
+    
+    public function __construct($f, $g) {
+        $this->f = $f;
+        $this->g = $g;
+    }
+    
+    public function __invoke($a = null) {
+        $__num = \func_num_args();
+        $g = $this->g;
+        $f = $this->f;
+        
+        $res = $f($g($a));
+        
+        if ($__num > 1) {
+            return $res(...\array_slice(\func_get_args(), 1));
+        }
+        return $res;
+    }
+}
+
+$_composeImpl = function($f, $g = null) {
+    if (\func_num_args() === 1) {
+        return function($g) use ($f) {
+            return function($a = null) use ($f, $g) {
+                $__num = \func_num_args();
+                $res = $f($g($a));
+                if ($__num > 1) {
+                    return $res(...\array_slice(\func_get_args(), 1));
+                }
+                return $res;
+            };
+        };
+    }
+    
+    return function($a = null) use ($f, $g) {
+        $__num = \func_num_args();
+        $res = $f($g($a));
+        if ($__num > 1) {
+            return $res(...\array_slice(\func_get_args(), 1));
+        }
+        return $res;
+    };
+};
+
+$exports['composeImpl'] = $_composeImpl;
+return $exports;
+});
+$GLOBALS['Control_Semigroupoid_composeImpl'] = $ffi_Control_Semigroupoid['composeImpl'] ?? null;
 
 
 // Control_Semigroupoid_Semigroupoid$Dict

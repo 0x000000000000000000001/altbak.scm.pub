@@ -5,6 +5,7 @@ namespace Control\Bind;
 require_once __DIR__ . '/../Control.Applicative/index.php';
 require_once __DIR__ . '/../Control.Apply/index.php';
 require_once __DIR__ . '/../Control.Bind/index.php';
+require_once __DIR__ . '/../Data.Function/index.php';
 require_once __DIR__ . '/../Data.Functor/index.php';
 require_once __DIR__ . '/../Data.Unit/index.php';
 
@@ -105,11 +106,11 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
 $Prim_undefined = function() { throw new \Exception("undefined"); };
 $ffi_Control_Bind = \call_user_func(function() {
 $arrayBind = function($xs, $f = null) use (&$arrayBind) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$arrayBind) {
 
-            return $arrayBind(...array_merge($__args, $more));
+            return $arrayBind(...\array_merge($__args, $more));
         };
     }
     $r = []; foreach($xs as $x) { foreach($f($x) as $y) { $r[] = $y; } } return $r;

@@ -104,11 +104,11 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
 $Prim_undefined = function() { throw new \Exception("undefined"); };
 $ffi_Data_Ring = \call_user_func(function() {
 $intSub = function($a, $b = null) use (&$intSub) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$intSub) {
 
-            return $intSub(...array_merge($__args, $more));
+            return $intSub(...\array_merge($__args, $more));
         };
     }
     return $a - $b;

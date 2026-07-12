@@ -43,4 +43,4 @@ workspace:
     strings:
       path: "../phpurs-strings"
   backend:
-    cmd: "phpurs"
+    cmd: "../phpurs/bin/phpurs"

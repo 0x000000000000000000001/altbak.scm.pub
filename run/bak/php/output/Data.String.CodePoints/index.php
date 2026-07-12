@@ -110,7 +110,7 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
       case 'Data_String_CodePoints_conj': $v = ($GLOBALS['Data_HeytingAlgebra_boolConj'] ?? \Data\HeytingAlgebra\phpurs_eval_thunk('Data_HeytingAlgebra_boolConj')); break;
       case 'Data_String_CodePoints_lessThanOrEq': $v = \Data\Ord\Data_Ord_lessThanOrEq(($GLOBALS['Data_Ord_ordInt'] ?? \Data\Ord\phpurs_eval_thunk('Data_Ord_ordInt'))); break;
       case 'Data_String_CodePoints_fromEnum': $v = ($GLOBALS['Data_Enum_toCharCode'] ?? \Data\Enum\phpurs_eval_thunk('Data_Enum_toCharCode')); break;
-      case 'Data_String_CodePoints_compose': $v = (($GLOBALS['Control_Semigroupoid_semigroupoidFn'] ?? \Control\Semigroupoid\phpurs_eval_thunk('Control_Semigroupoid_semigroupoidFn')))->compose; break;
+      case 'Data_String_CodePoints_compose': $v = ($GLOBALS['Control_Semigroupoid_composeImpl'] ?? \Control\Semigroupoid\phpurs_eval_thunk('Control_Semigroupoid_composeImpl')); break;
       case 'Data_String_CodePoints_div': $v = ($GLOBALS['Data_EuclideanRing_intDiv'] ?? \Data\EuclideanRing\phpurs_eval_thunk('Data_EuclideanRing_intDiv')); break;
       case 'Data_String_CodePoints_mod': $v = ($GLOBALS['Data_EuclideanRing_intMod'] ?? \Data\EuclideanRing\phpurs_eval_thunk('Data_EuclideanRing_intMod')); break;
       case 'Data_String_CodePoints_fromCharCode': $v = (($GLOBALS['Data_String_CodePoints_compose'] ?? \Data\String\CodePoints\phpurs_eval_thunk('Data_String_CodePoints_compose')))(($GLOBALS['Data_String_CodeUnits_singleton'] ?? \Data\String\CodeUnits\phpurs_eval_thunk('Data_String_CodeUnits_singleton')), \Data\Enum\Data_Enum_toEnumWithDefaults(($GLOBALS['Data_Enum_boundedEnumChar'] ?? \Data\Enum\phpurs_eval_thunk('Data_Enum_boundedEnumChar')), ($GLOBALS['Data_Bounded_bottomChar'] ?? \Data\Bounded\phpurs_eval_thunk('Data_Bounded_bottomChar')), ($GLOBALS['Data_Bounded_topChar'] ?? \Data\Bounded\phpurs_eval_thunk('Data_Bounded_topChar')))); break;
@@ -124,7 +124,7 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
 }
 $Prim_undefined = function() { throw new \Exception("undefined"); };
 $ffi_Data_String_CodePoints = \call_user_func(function() {
-if (!function_exists('Data_String_CodePoints_utf8_ord')) {
+if (!\function_exists('Data_String_CodePoints_utf8_ord')) {
     function Data_String_CodePoints_utf8_ord($char) {
         if ($char === '') return 0;
         $c0 = ord($char[0]);
@@ -140,7 +140,7 @@ if (!function_exists('Data_String_CodePoints_utf8_ord')) {
     }
 }
 
-if (!function_exists('Data_String_CodePoints_utf8_chr')) {
+if (!\function_exists('Data_String_CodePoints_utf8_chr')) {
     function Data_String_CodePoints_utf8_chr($code) {
         if ($code < 0x80) {
             return chr($code);
@@ -155,22 +155,22 @@ if (!function_exists('Data_String_CodePoints_utf8_chr')) {
 }
 
 $_unsafeCodePointAt0 = function($fallback, $str = null) use (&$_unsafeCodePointAt0) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_unsafeCodePointAt0) {
 
-            return $_unsafeCodePointAt0(...array_merge($__args, $more));
+            return $_unsafeCodePointAt0(...\array_merge($__args, $more));
         };
     }
     return Data_String_CodePoints_utf8_ord(iconv_substr($str, 0, 1, 'UTF-8'));
 };
 
 $_codePointAt = function($fallback, $just = null, $nothing = null, $unsafeCodePointAt0 = null, $index = null, $str = null) use (&$_codePointAt) {
-    if (func_num_args() < 6) {
-        $__args = func_get_args();
+    if (\func_num_args() < 6) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_codePointAt) {
 
-            return $_codePointAt(...array_merge($__args, $more));
+            return $_codePointAt(...\array_merge($__args, $more));
         };
     }
     $len = iconv_strlen($str, 'UTF-8');
@@ -179,11 +179,11 @@ $_codePointAt = function($fallback, $just = null, $nothing = null, $unsafeCodePo
 };
 
 $_countPrefix = function($fallback, $unsafeCodePointAt0 = null, $pred = null, $str = null) use (&$_countPrefix) {
-    if (func_num_args() < 4) {
-        $__args = func_get_args();
+    if (\func_num_args() < 4) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_countPrefix) {
 
-            return $_countPrefix(...array_merge($__args, $more));
+            return $_countPrefix(...\array_merge($__args, $more));
         };
     }
     $len = iconv_strlen($str, 'UTF-8');
@@ -196,11 +196,11 @@ $_countPrefix = function($fallback, $unsafeCodePointAt0 = null, $pred = null, $s
 };
 
 $_fromCodePointArray = function($singleton, $cps = null) use (&$_fromCodePointArray) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_fromCodePointArray) {
 
-            return $_fromCodePointArray(...array_merge($__args, $more));
+            return $_fromCodePointArray(...\array_merge($__args, $more));
         };
     }
     $result = "";
@@ -211,33 +211,33 @@ $_fromCodePointArray = function($singleton, $cps = null) use (&$_fromCodePointAr
 };
 
 $_singleton = function($fallback, $cp = null) use (&$_singleton) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_singleton) {
 
-            return $_singleton(...array_merge($__args, $more));
+            return $_singleton(...\array_merge($__args, $more));
         };
     }
     return Data_String_CodePoints_utf8_chr($cp);
 };
 
 $_take = function($fallback, $n = null, $str = null) use (&$_take) {
-    if (func_num_args() < 3) {
-        $__args = func_get_args();
+    if (\func_num_args() < 3) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_take) {
 
-            return $_take(...array_merge($__args, $more));
+            return $_take(...\array_merge($__args, $more));
         };
     }
     return iconv_substr($str, 0, $n, 'UTF-8');
 };
 
 $_toCodePointArray = function($fallback, $unsafeCodePointAt0 = null, $str = null) use (&$_toCodePointArray) {
-    if (func_num_args() < 3) {
-        $__args = func_get_args();
+    if (\func_num_args() < 3) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$_toCodePointArray) {
 
-            return $_toCodePointArray(...array_merge($__args, $more));
+            return $_toCodePointArray(...\array_merge($__args, $more));
         };
     }
     $len = iconv_strlen($str, 'UTF-8');

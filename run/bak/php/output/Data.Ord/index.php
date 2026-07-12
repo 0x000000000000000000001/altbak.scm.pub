@@ -98,6 +98,14 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
   __end:
   return $__num > 1 ? $__res(...array_slice(func_get_args(), 1)) : $__res;
 }]; break;
+      case 'Data_Ord_ordChar': $v = (object)["compare" => (($GLOBALS['Data_Ord_ordCharImpl'] ?? \Data\Ord\phpurs_eval_thunk('Data_Ord_ordCharImpl')))(($GLOBALS['__phpurs_data0_LT'] ??= new Phpurs_Data0("LT")), ($GLOBALS['__phpurs_data0_EQ'] ??= new Phpurs_Data0("EQ")), ($GLOBALS['__phpurs_data0_GT'] ??= new Phpurs_Data0("GT"))), "Eq0" => function($__dollar____unused) {
+  $__num = func_num_args();
+  $__global_Data_Eq_eqChar = ($GLOBALS['Data_Eq_eqChar'] ?? \Data\Eq\phpurs_eval_thunk('Data_Eq_eqChar'));
+  $__res = $__global_Data_Eq_eqChar;
+  goto __end;;
+  __end:
+  return $__num > 1 ? $__res(...array_slice(func_get_args(), 1)) : $__res;
+}]; break;
       default: throw new \Exception("Unknown thunk " . $id);
     }
     $GLOBALS[$id] = $v;
@@ -107,11 +115,11 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
 $Prim_undefined = function() { throw new \Exception("undefined"); };
 $ffi_Data_Ord = \call_user_func(function() {
 $ordIntImpl = function($lt, $eq = null, $gt = null, $x = null, $y = null) use (&$ordIntImpl) {
-    if (func_num_args() < 5) {
-        $__args = func_get_args();
+    if (\func_num_args() < 5) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$ordIntImpl) {
 
-            return $ordIntImpl(...array_merge($__args, $more));
+            return $ordIntImpl(...\array_merge($__args, $more));
         };
     }
     return $x < $y ? $lt : ($x === $y ? $eq : $gt);
@@ -128,16 +136,16 @@ $exports['ordCharImpl'] = $ordCharImpl;
 $exports['ordBooleanImpl'] = $ordBooleanImpl;
 
 $ordArrayImpl = function($f, $xs = null, $ys = null) use (&$ordArrayImpl) {
-    if (func_num_args() < 3) {
-        $__args = func_get_args();
+    if (\func_num_args() < 3) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$ordArrayImpl) {
-            return $ordArrayImpl(...array_merge($__args, $more));
+            return $ordArrayImpl(...\array_merge($__args, $more));
         };
     }
     
     $i = 0;
-    $xlen = count($xs);
-    $ylen = count($ys);
+    $xlen = \count($xs);
+    $ylen = \count($ys);
     while ($i < $xlen && $i < $ylen) {
         $x = $xs[$i];
         $y = $ys[$i];
@@ -180,6 +188,7 @@ function Data_Ord_Ord__dollar__Dict($x) {
   return 1 < $__num ? $__res(...array_slice(func_get_args(), 1)) : $__res;
 }
 $GLOBALS['Data_Ord_Ord__dollar__Dict'] = __NAMESPACE__ . '\\Data_Ord_Ord__dollar__Dict';
+
 
 
 // Data_Ord_compare
@@ -277,4 +286,42 @@ break;
   return 1 < $__num ? $__res(...array_slice(func_get_args(), 1)) : $__res;
 }
 $GLOBALS['Data_Ord_lessThan'] = __NAMESPACE__ . '\\Data_Ord_lessThan';
+
+// Data_Ord_lessThanOrEq
+function Data_Ord_lessThanOrEq($dictOrd) {
+  $__num = func_num_args();
+  $__fn = __NAMESPACE__ . '\\' . 'Data_Ord_lessThanOrEq';
+  if ($__num < 1) {
+    return phpurs_curry_fallback($__fn, func_get_args(), 1);
+  }
+  $compare3 = ($dictOrd)->compare;
+  $__res = (function() use ($compare3, &$__fn) {
+  $__fn = function($a1, $a2 = null) use ($compare3, &$__fn) {
+  $__num = func_num_args();
+  if ($__num < 2) {
+    if ($__num === 1) return function($a2) use ($a1, &$__fn) { return $__fn($a1, $a2); };
+    return phpurs_curry_fallback($__fn, func_get_args(), 2);
+  }
+  $v = ($compare3)($a1, $a2);
+  $__case_0 = $v;
+  switch (($__case_0)->tag) {
+case "GT":
+$__res = false;
+goto __end;;
+break;
+default:
+$__res = true;
+goto __end;;
+break;
+};
+  __end:
+  return $__num > 2 ? $__res(...array_slice(func_get_args(), 2)) : $__res;
+  };
+  return $__fn;
+})();
+  goto __end;;
+  __end:
+  return 1 < $__num ? $__res(...array_slice(func_get_args(), 1)) : $__res;
+}
+$GLOBALS['Data_Ord_lessThanOrEq'] = __NAMESPACE__ . '\\Data_Ord_lessThanOrEq';
 

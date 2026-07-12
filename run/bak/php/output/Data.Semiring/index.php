@@ -96,21 +96,21 @@ if (!function_exists(__NAMESPACE__ . '\\phpurs_eval_thunk')) {
 $Prim_undefined = function() { throw new \Exception("undefined"); };
 $ffi_Data_Semiring = \call_user_func(function() {
 $intAdd = function($a, $b = null) use (&$intAdd) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$intAdd) {
 
-            return $intAdd(...array_merge($__args, $more));
+            return $intAdd(...\array_merge($__args, $more));
         };
     }
     return $a + $b;
 };
 $intMul = function($a, $b = null) use (&$intMul) {
-    if (func_num_args() < 2) {
-        $__args = func_get_args();
+    if (\func_num_args() < 2) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$intMul) {
 
-            return $intMul(...array_merge($__args, $more));
+            return $intMul(...\array_merge($__args, $more));
         };
     }
     return $a * $b;
